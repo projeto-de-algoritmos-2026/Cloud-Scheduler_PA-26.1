@@ -1,9 +1,11 @@
 import random
-from typing import List
 from src.task import Task
 
 
 def generate_tasks(n=100, seed=42):
+    if n <= 0:
+        return []
+
     rng = random.Random(seed)
     tasks = []
 
