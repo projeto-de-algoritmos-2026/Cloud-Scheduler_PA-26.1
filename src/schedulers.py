@@ -1,6 +1,5 @@
 import copy
 import random
-from typing import List, Tuple
 from src.task import Task
 
 
@@ -15,9 +14,22 @@ def simulate(tasks):
     return result
 
 
-# calcula as métricas depois de simular
 def get_stats(tasks, name):
+    if not tasks:
+        return {
+            "algorithm":     name,
+            "total_tasks":   0,
+            "late_count":    0,
+            "on_time_count": 0,
+            "late_pct":      0.0,
+            "max_lateness":  0.0,
+            "avg_lateness":  0.0,
+            "total_penalty": 0.0,
+            "makespan":      0.0,
+        }
+
     late = [t for t in tasks if t.is_late]
+    avg_late = (sum(t.lateness for t in late) / len(late)) if late else 0.0
     return {
         "algorithm":     name,
         "total_tasks":   len(tasks),
@@ -25,28 +37,27 @@ def get_stats(tasks, name):
         "on_time_count": len(tasks) - len(late),
         "late_pct":      round(100 * len(late) / len(tasks), 1),
         "max_lateness":  round(max(t.lateness for t in tasks), 2),
-        "avg_lateness":  round(sum(t.lateness for t in tasks) / len(tasks), 2),
+        "avg_lateness":  round(avg_late, 2),
         "total_penalty": round(sum(t.total_penalty for t in tasks), 2),
         "makespan":      round(tasks[-1].finish_time, 2),
     }
 
 
-# EDF - ordena pelo deadline mais cedo primeiro
-# é um algoritmo guloso e é ótimo para minimizar o atraso máximo
+# edf ordena pelo deadline mais cedo primeiro
 def schedule_edf(tasks):
     ordered = sorted(tasks, key=lambda t: t.deadline)
     result = simulate(ordered)
     return result, get_stats(result, "EDF")
 
 
-# FIFO - processa na ordem que chegou, sem nenhuma inteligência
+# fila processa na ordem que chegou, sem nenhuma inteligência
 def schedule_fifo(tasks):
     ordered = sorted(tasks, key=lambda t: t.task_id)
     result = simulate(ordered)
     return result, get_stats(result, "FIFO")
 
 
-# Random - ordem aleatória, serve só pra comparar com o EDF
+# random ordem aleatória, serve só pra comparar com o EDF
 def schedule_random(tasks, seed=7):
     shuffled = copy.deepcopy(tasks)
     random.Random(seed).shuffle(shuffled)
