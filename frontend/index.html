@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDF Scheduler — Simulador de Escalonamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">▸ Cloud Scheduler Simulator</div>
+    <h1>Earliest Deadline First</h1>
+    <p>// simulação de escalonamento guloso em servidor AWS<br>
+       // minimização do atraso máximo (L<sub>max</sub>)</p>
+  </header>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="field">
+      <label>Nº de Tarefas</label>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <input type="range" id="n-range" min="10" max="200" value="50"
+               oninput="document.getElementById('n-val').textContent=this.value">
+        <div class="range-val" id="n-val">50</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Duração Máx (s)</label>
+      <input type="number" id="max-dur" value="20" min="5" max="100">
+    </div>
+    <div class="field">
+      <label>Folga de Deadline</label>
+      <select id="slack">
+        <option value="1.5">Apertado (1.5×)</option>
+        <option value="2.5" selected>Normal (2.5×)</option>
+        <option value="4.0">Folgado (4.0×)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Multa Máx (R$)</label>
+      <input type="number" id="max-pen" value="500" min="10" max="2000">
+    </div>
+    <button class="btn-run" onclick="runSimulation()">▶ Simular</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section-title">Resultados EDF</div>
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">Economia vs. Random</div>
+      <div class="kpi-value" id="kpi-saving">—</div>
+      <div class="kpi-sub" id="kpi-saving-pct">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Atraso Máximo EDF</div>
+      <div class="kpi-value" id="kpi-lmax">—</div>
+      <div class="kpi-sub">L<sub>max</sub> (s)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Tarefas Atrasadas</div>
+      <div class="kpi-value" id="kpi-late">—</div>
+      <div class="kpi-sub" id="kpi-late-pct">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Multa Total EDF</div>
+      <div class="kpi-value" id="kpi-penalty">—</div>
+      <div class="kpi-sub">R$</div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="section-title">Comparação de Algoritmos</div>
+  <div class="charts-grid">
+    <div class="chart-box">
+      <div class="chart-title">// multa total (R$)</div>
+      <canvas id="chart-penalty" height="220"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">// tarefas atrasadas</div>
+      <canvas id="chart-late" height="220"></canvas>
+    </div>
+    <div class="chart-box wide">
+      <div class="chart-title">// multa acumulada ao longo do tempo</div>
+      <canvas id="chart-cumulative" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Tabela -->
+  <div class="section-title">Tabela Comparativa</div>
+  <div class="table-box">
+    <table>
+      <thead>
+        <tr>
+          <th>Algoritmo</th>
+          <th>Atrasadas</th>
+          <th>% Atrasadas</th>
+          <th>Atraso Máx (s)</th>
+          <th>Multa Total (R$)</th>
+        </tr>
+      </thead>
+      <tbody id="stats-table"></tbody>
+    </table>
+  </div>
+
+  <!-- Gantt -->
+  <div class="section-title">Diagrama de Gantt — EDF</div>
+  <div id="gantt-container">
+    <svg id="gantt-svg" height="400"></svg>
+  </div>
+
+  <footer>
+    <span>
+      <span class="dot" style="background:var(--edf)"></span>EDF
+      <span class="dot" style="background:var(--fifo);margin-left:12px"></span>FIFO
+      <span class="dot" style="background:var(--rand);margin-left:12px"></span>Random
+    </span>
+    <span>Projeto de Algoritmos · EDF Scheduler · 2025</span>
+  </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="js/simulation.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/gantt.js"></script>
+<script src="js/table.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
