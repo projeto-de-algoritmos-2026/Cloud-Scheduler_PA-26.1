@@ -2,7 +2,7 @@
 
 function updateKPIs(sEDF, sRand) {
 	const saved = sRand.totalPen - sEDF.totalPen;
-	const pct   = (100 * saved / sRand.totalPen).toFixed(1);
+	const pct   = sRand.totalPen > 0 ? (100 * saved / sRand.totalPen).toFixed(1) : '0.0';
 	document.getElementById('kpi-saving').textContent     = `R$ ${saved.toLocaleString('pt-BR')}`;
 	document.getElementById('kpi-saving-pct').textContent = `${pct}% menos que Random`;
 	document.getElementById('kpi-lmax').textContent       = `${sEDF.maxLat}s`;
