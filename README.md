@@ -262,10 +262,3 @@ O EDF e um exemplo direto de estrategia gulosa: a cada passo, ele escolhe a tare
 
 ---
 
-## Possiveis Melhorias
-
-- Integrar a geracao dos graficos estaticos ao fluxo principal da CLI
-- Adicionar testes automatizados para a interface de simulacao em JavaScript
-- Permitir importar/exportar conjuntos de tarefas
-- Comparar o EDF com outras heuristicas, como menor duracao primeiro ou maior penalidade primeiro
-- Criar um modo de simulacao passo a passo no Gantt
