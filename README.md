@@ -146,11 +146,41 @@ A interface roda localmente no navegador e nao precisa de servidor para funciona
 
 ---
 
+## Video Explicativo
+
+```text
+https://youtu.be/zMUZqIt6YIQ
+```
+
+---
+## Indicadores e Graficos Comparativos
+
+![Indicadores e graficos comparativos](img/interface-resultados.png)
+
+### Multa Acumulada ao Longo do Tempo
+
+![Grafico de multa acumulada](img/multa-acumulada.png)
+
+### Tabela Comparativa
+
+![Tabela comparativa dos algoritmos](img/tabela-comparativa.png)
+
+### Diagrama de Gantt
+
+![Diagrama de Gantt do EDF](img/diagrama-gantt.png)
+
+---
+
 ## Estrutura do Projeto
 
 ```text
 G43_Greedy_PA-26.1/
 ├── README.md
+├── img/
+│   ├── interface-resultados.png
+│   ├── multa-acumulada.png
+│   ├── tabela-comparativa.png
+│   └── diagrama-gantt.png
 ├── requirements.txt
 ├── main.py
 ├── src/
